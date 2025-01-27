@@ -1,70 +1,92 @@
-# Getting Started with Create React App
+#User Management Dashboard
+--------------------------------------------------------------------------------------------------------------------
+Project Setup Instructions
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Clone the Repository:
 
-## Available Scripts
+git clone <repository-url>
+cd <repository-directory>
 
-In the project directory, you can run:
+Install Dependencies:
+Ensure that Node.js and npm are installed on your system, then run:
 
-### `npm start`
+npm install
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Run the JSON Server:
+The project uses json-server as a mock backend. To set it up:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+npx json-server --watch db.json --port 5000
 
-### `npm test`
+Ensure the db.json file is in the project root directory and contains sample user data, e.g.,
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+{
+  "users": []
+}
 
-### `npm run build`
+Start the React Application:
+Run the following command to start the development server:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+npm start
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+This will start the application on http://localhost:3000/.
+-----------------------------------------------------------------------------------------------------------------------------------
+Component Details
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Home.js:
 
-### `npm run eject`
+Displays a list of users fetched from the JSON Server.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Provides options to edit or delete users.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+CreateUser.js:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Handles adding a new user.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Includes a form to input details such as firstName, lastName, email, and department.
 
-## Learn More
+Submits data to the JSON Server via axios.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+UpdateUser.js:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Handles updating an existing user.
 
-### Code Splitting
+Fetches the user's current details and allows editing.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Sends updates to the JSON Server via axios.
 
-### Analyzing the Bundle Size
+App.js:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Sets up the routing using react-router-dom.
 
-### Making a Progressive Web App
+Routes include:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+/: Home page
 
-### Advanced Configuration
+/adduser: Add a user
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+/users/:id: Update a user
 
-### Deployment
+---------------------------------------------------------------------------------------------------------------
+Challenges Faced
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Unique ID Generation:
 
-### `npm run build` fails to minify
+Initially, new Date() was used for ID generation, which worked but lacked uniqueness for rapid successive requests.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Switched to a combination of Date.now() and Math.random() for better uniqueness.
+
+Navigate in Class Components:
+
+Encountered issues using useNavigate in class-based components since hooks are exclusive to functional components.
+
+Resolved this by creating a wrapper component to pass the navigate prop.
+
+Styling for Responsive Design:
+
+Ensuring forms looked good on both mobile and desktop views required extra effort.
+
+Used responsive CSS classes (w-90, w-md-70) to adapt form width dynamically.
+
+Error Handling:
+
+Handling errors for API calls required implementing try-catch blocks to show appropriate messages.
